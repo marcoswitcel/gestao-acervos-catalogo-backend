@@ -7,29 +7,48 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CatalogsService {
-
   constructor(
     @InjectRepository(Catalog)
     private catalogRepository: Repository<Catalog>,
   ) {}
 
   create(createCatalogDto: CreateCatalogDto) {
-    return 'This action adds a new catalog';
+    const catalog = new Catalog();
+
+    // @note questionavel se deveria aceitar o id para atualização
+    catalog.title = createCatalogDto.title;
+    catalog.description = createCatalogDto.description;
+    catalog.publicado = createCatalogDto.publicado;
+    catalog.itens = createCatalogDto.itens;
+    catalog.id = createCatalogDto.id;
+
+    return this.catalogRepository.save(catalog);
   }
 
   findAll() {
     return this.catalogRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} catalog`;
+  findOne(id: string) {
+    return this.catalogRepository.findOneBy({ id });
   }
 
-  update(id: number, updateCatalogDto: UpdateCatalogDto) {
-    return `This action updates a #${id} catalog`;
+  async update(id: string, updateCatalogDto: UpdateCatalogDto) {
+    const catalog = await this.catalogRepository.findOneBy({ id });
+
+    if (!catalog) return null;
+
+    // @note questionavel se deveria aceitar o id para atualização
+    catalog.title = updateCatalogDto.title;
+    catalog.description = updateCatalogDto.description;
+    catalog.publicado = updateCatalogDto.publicado;
+    catalog.itens = updateCatalogDto.itens;
+    catalog.id = updateCatalogDto.id;
+
+    return this.catalogRepository.save(catalog);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} catalog`;
+  remove(id: string) {
+    return this.catalogRepository.delete(id);
   }
 }

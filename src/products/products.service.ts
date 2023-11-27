@@ -7,29 +7,48 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
-
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
   ) {}
 
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    const produtct = new Product();
+
+    // @todo João, testar
+    produtct.title = createProductDto.title;
+    produtct.description = createProductDto.description;
+    produtct.rascunho = createProductDto.rascunho;
+    produtct.foto = createProductDto.foto;
+    produtct.id = createProductDto.id;
+
+    return this.productRepository.save(produtct);
   }
 
   findAll() {
     return this.productRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    return this.productRepository.findOneBy({ id });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    const produtct = await this.productRepository.findOneBy({ id });
+
+    if (!produtct) return null;
+
+    // @note questionavel se deveria aceitar o id para atualização
+    produtct.title = updateProductDto.title;
+    produtct.description = updateProductDto.description;
+    produtct.rascunho = updateProductDto.rascunho;
+    produtct.foto = updateProductDto.foto;
+    produtct.id = updateProductDto.id;
+
+    return this.productRepository.save(produtct);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    return await this.productRepository.delete(id);
   }
 }
