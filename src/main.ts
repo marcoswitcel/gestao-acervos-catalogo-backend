@@ -11,9 +11,7 @@ async function bootstrap() {
   // @link https://docs.nestjs.com/security/cors
   app.enableCors();
 
-  console.log(
-    'Data_Source: [[[[[' + process.env.POSTGRES_DATA_SOURCE + ']]]]]',
-  );
+  // console.log('Data_Source: ' + process.env.POSTGRES_DATA_SOURCE);
 
   await app.listen(3000);
 }
