@@ -1,3 +1,4 @@
+import { Product } from 'src/products/entities/product.entity';
 
 export const PRODUCTS: Product[] = [
   {
