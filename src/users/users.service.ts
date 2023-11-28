@@ -32,6 +32,7 @@ export class UsersService {
   }
 
   async validate(email: string, password: string) {
+    // @todo A validação precisar involver criptografia da senha, efim
     const found = await this.userRepository.findBy({ email, password });
 
     return found.length > 0;

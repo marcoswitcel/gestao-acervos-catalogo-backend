@@ -8,6 +8,7 @@ export class User {
   @Column({ type: 'varchar', length: 275 })
   email: string;
 
+  // @todo A senha precisaria ser armazenada criptografada
   @Column({ type: 'varchar', length: 275 })
   password: string;
 }
