@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './products/entities/product.entity';
 import { Catalog } from './catalogs/entities/catalog.entity';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 
 /**
  * @link https://docs.nestjs.com/techniques/configuration
@@ -18,7 +20,7 @@ const typeOrmModuleInstance = TypeOrmModule.forRoot({
   port: 5432,
   username: process.env.DATA_SOURCE_USERNAME || 'postgres',
   password: process.env.DATA_SOURCE_PASSWORD || 'simform',
-  entities: [Product, Catalog],
+  entities: [Product, Catalog, User],
   database: process.env.DATA_SOURCE_DATABASE || 'pgWithNest',
   synchronize: true,
   logging: true,
@@ -31,6 +33,7 @@ const typeOrmModuleInstance = TypeOrmModule.forRoot({
     ConfigModule.forRoot(),
     ProductsModule,
     CatalogsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
